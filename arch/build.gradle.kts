@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("maven-publish")
+    alias(libs.plugins.mavenPublish)
     id("kotlin-kapt")
 }
 
@@ -34,55 +34,31 @@ android {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            groupId = "com.github.AlminChou"
-            artifactId = "Arch"
-            version = "1.0.0"  // 确保使用新版本号
 
-            pom {
-                name.set("Arch")
-                description.set("A description of your project")
-                url.set("https://github.com/AlminChou/Arch")
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("AlminChou")
-                        name.set("Almin Chou")
-                        email.set("almin@example.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/AlminChou/Arch.git")
-                    developerConnection.set("scm:git:ssh://github.com/AlminChou/Arch.git")
-                    url.set("https://github.com/AlminChou/Arch")
-                }
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.almin.arch"
+                artifactId = "arch"
+                version = "1.0.0"  // 确保使用新版本号
             }
         }
-    }
 
-    repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/AlminChou/Arch")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
+        repositories {
+            maven {
+                url = uri("https://maven.pkg.github.com/AlminChou/Arch")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                    password = project.findProperty("ghp.token") as String? ?: System.getenv("GITHUB_TOKEN")
+                }
             }
         }
     }
 }
 
-dependencies {
-//    implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
 
+dependencies {
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
