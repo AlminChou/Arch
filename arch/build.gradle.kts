@@ -34,36 +34,49 @@ android {
     }
 }
 
-
 publishing {
     publications {
-        // 创建 Maven 发布配置
         create<MavenPublication>("release") {
             groupId = "com.github.AlminChou"
             artifactId = "Arch"
-            version = "1.0.0"
+            version = "1.0.0"  // 确保使用新版本号
 
-            // 发布库的内容，发布 release 版本
-            afterEvaluate {
-                from(components["release"])
+            pom {
+                name.set("Arch")
+                description.set("A description of your project")
+                url.set("https://github.com/AlminChou/Arch")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("AlminChou")
+                        name.set("Almin Chou")
+                        email.set("almin@example.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/AlminChou/Arch.git")
+                    developerConnection.set("scm:git:ssh://github.com/AlminChou/Arch.git")
+                    url.set("https://github.com/AlminChou/Arch")
+                }
             }
         }
     }
 
     repositories {
         maven {
-            // GitHub Packages URL
-            name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/AlminChou/Arch")
             credentials {
-                // 从环境变量或 local.properties 中读取 GitHub 用户名和 token
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.token") as String? ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.token") as String? ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
 }
-
 
 dependencies {
 //    implementation(libs.androidx.core.ktx)
@@ -92,10 +105,10 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    api("com.squareup.retrofit2:converter-moshi:+")
-    api("com.squareup.moshi:moshi-kotlin:+")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:+")
-    api("com.squareup.moshi:moshi:+")
+    api("com.squareup.retrofit2:converter-moshi:2.9.0") 
+    api("com.squareup.moshi:moshi-kotlin:1.13.0") 
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.13.0") 
+    api("com.squareup.moshi:moshi:1.13.0") 
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
