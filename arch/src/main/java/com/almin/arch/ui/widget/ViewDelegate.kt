@@ -15,7 +15,7 @@ import kotlinx.coroutines.cancelChildren
  * Desc: View层viewModel 承载数据业务逻辑， 作用域与当前UI页面容器的ViewModelStore中
  *       1.由于view的特殊情况可能涉及手动add remove甚至复用机制， 不能依靠原来viewModel的机制来自动销毁协程 所以不能使用viewModelScope协程作用域， 需要自定义协程作用域 手动进行管理
  *       2.因为需要依赖注入， 所以借助viewModel的初始化注入进行获取相关注入能力来获取repository等相关实例
- *       3.注意该ViewDelegate生命周期会跟随页面 viewModel stroe 不跟随view， 可能view是每次新 但是页面没销毁 重新获取的还是上一个ViewDelegate， 所以注意reset和onclear 操作 区分好clear和onCleared
+ *       3.注意该ViewDelegate生命周期会跟随页面 viewModel store 不跟随view， 可能view是每次新 但是页面没销毁 重新获取的还是上一个ViewDelegate， 所以注意reset和onclear 操作 区分好clear和onCleared
  */
 abstract class ViewDelegate : SuperViewModel(), CoroutineScope by CloseableCoroutineScope (
     SupervisorJob() + Dispatchers.Main.immediate) , ILog {

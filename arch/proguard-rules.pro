@@ -163,8 +163,3 @@
     java.lang.Object readResolve();
 }
 
-
-# okdownload
--keep class com.liulishuo.okdownload.** { *; }
--dontwarn com.liulishuo.okdownload.**
-
