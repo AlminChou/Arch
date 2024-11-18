@@ -1,2 +1,2 @@
 # Arch
-android mvvm arch library
+android arch library
